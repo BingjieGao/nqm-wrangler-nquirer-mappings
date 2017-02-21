@@ -1,0 +1,1 @@
+# nqm-wrangler-nquirer-mappings
