@@ -35,3 +35,14 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+#eslint
+.eslintrc.js
+
+#databot-test
+databot-test.js
+secret_config.json
+
+#rawFiles in csv
+rawFiles/
+jsonFiles/
