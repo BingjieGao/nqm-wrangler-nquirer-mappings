@@ -42,6 +42,7 @@ jspm_packages
 #databot-test
 databot-test.js
 secret_config.json
+run.sh
 
 #rawFiles in csv
 rawFiles/
