@@ -1,0 +1,11 @@
+{
+  "name": "nqm-wrangler-nquirer-mappings",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": ""
+  },
+  "dependencies": {
+    "csvtojson": "^1.1.4"
+  }
+}
