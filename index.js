@@ -5,7 +5,6 @@ module.exports = (function() {
   const request = require("request");
   const csv = require("csvtojson");
   const path = require("path");
-  let count = 0;
 
   function databot(input, output, context) {
     // Load particular function file from "./lib" according to input mappingType
@@ -45,7 +44,6 @@ module.exports = (function() {
        // destStream.write(JSON.stringify(outputString) + "\n");
       })
       .on("done", () => {
-        output.debug("write count is %d", count);
         // Parser has finished.
         output.debug("finished converting csv to json");
         // Close the destination stream.
