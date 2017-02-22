@@ -5,6 +5,7 @@ module.exports = (function() {
   const request = require("request");
   const csv = require("csvtojson");
   const path = require("path");
+  let count = 0;
 
   function databot(input, output, context) {
     // Load particular function file from "./lib" according to input mappingType
@@ -40,13 +41,18 @@ module.exports = (function() {
       .on("json", (json) => {
         // A json object has been parsed => write it to the destination stream.
         mappingType(json, destStream);
-        // destStream.write(JSON.stringify(outputJson));
+        
+       // destStream.write(JSON.stringify(outputString) + "\n");
       })
       .on("done", () => {
+        output.debug("write count is %d", count);
         // Parser has finished.
         output.debug("finished converting csv to json");
         // Close the destination stream.
-        destStream.close();
+        // changed with end fd, default createWriteStream options autoclose is true
+        // https://nodejs.org/api/fs.html#fs_fs_createwritestream_path_options
+        destStream.end();
+        // destStream.close();
         // Output the databot result, which is the output file path. This databot can then be chained onto an import
         // databot that will upload and import the file to the TDX.
         output.result({outputFilePath: outputFilePath});
