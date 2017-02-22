@@ -17,7 +17,10 @@ module.exports = (function() {
     }
     // Load the source data as an HTTP stream.
     let sourceStream;
-    if (input.sourceResource) {
+    if (input.sourceFilePath) {
+      // Source is a file on local disk.
+      sourceStream = fs.createReadStream(input.sourceFilePath.split(","));
+    } else if (input.sourceResource) {
       output.debug("sourceResource existed, parsing csv files from TBX rawFile");
       sourceStream = context.tdxApi.getRawFile(input.sourceResource[input.mappingType]);
     } else {
