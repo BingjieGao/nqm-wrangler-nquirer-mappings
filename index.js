@@ -8,7 +8,7 @@ module.exports = (function() {
 
   function databot(input, output, context) {
     // Load particular function file from "./lib" according to input mappingType
-    const mappingType = require(path.join(__dirname, path.join("lib", input.mappingType["ons-mapping"])));
+    const mappingType = require(path.join(__dirname, path.join("lib", input.defaultMappingTypes[input.mappingType])));
 
     // Databot can accept the source data as either a TDX resource ID refering to a raw file, or a URL.
     if (!input.sourceResource && !input.sourceURL) {
@@ -19,7 +19,7 @@ module.exports = (function() {
     let sourceStream;
     if (input.sourceResource) {
       output.debug("sourceResource existed, parsing csv files from TBX rawFile");
-      sourceStream = context.tdxApi.getRawFile(input.sourceResource["ons-mapping"]);
+      sourceStream = context.tdxApi.getRawFile(input.sourceResource[input.mappingType]);
     } else {
       sourceStream = request.get(input.sourceURL);
     }
