@@ -5,10 +5,11 @@ module.exports = (function() {
   const request = require("request");
   const csv = require("csvtojson");
   const path = require("path");
+  const wranglerClass = require("./lib/wrangler-factory");
 
   function databot(input, output, context) {
     // Load particular function file from "./lib" according to input mappingType
-    const mappingType = require(path.join(__dirname, path.join("lib", input.defaultMappingTypes[input.mappingType])));
+    const mappingType = wranglerClass(input.mappingType);
 
     // Databot can accept the source data as either a TDX resource ID refering to a raw file, or a URL.
     if (!input.sourceResource && !input.sourceURL) {
