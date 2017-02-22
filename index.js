@@ -23,7 +23,8 @@ module.exports = (function() {
     } else {
       sourceStream = request.get(input.sourceURL);
     }
-    output.setFileStorePath("./jsonFiles");
+    // just for local test if generated json file is corret
+    // output.setFileStorePath("./jsonFiles");
     // Generate the output file based on the databot instance id.
     const outputFilePath = output.getFileStorePath(`${context.instanceId}-output.json`);
     const destStream = fs.createWriteStream(outputFilePath);
