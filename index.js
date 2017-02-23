@@ -11,8 +11,8 @@ module.exports = (function() {
     const mappingType = wranglerClass(input.mappingType);
 
     // Databot can accept the source data as either a TDX resource ID refering to a raw file, or a URL.
-    if (!input.sourceResource && !input.sourceURL) {
-      output.error("invalid arguments - please supply either a source resource id or source url");
+    if (!input.sourceResource && !input.sourceURL && !input.sourceFilePath || !mappingType) {
+      output.error("invalid arguments - please supply either a source or valid mappingType");
       process.exit(1);
     }
 
