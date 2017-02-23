@@ -23,7 +23,7 @@ module.exports = (function() {
       sourceStream = fs.createReadStream(input.sourceFilePath.split(","));
     } else if (input.sourceResource) {
       output.debug("sourceResource existed, parsing csv files from TBX rawFile");
-      sourceStream = context.tdxApi.getRawFile(input.sourceResource[input.mappingType]);
+      sourceStream = context.tdxApi.getRawFile(input.sourceResource);
     } else {
       sourceStream = request.get(input.sourceURL);
     }
