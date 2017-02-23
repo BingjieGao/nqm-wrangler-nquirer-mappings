@@ -63,7 +63,7 @@ module.exports = (function() {
       return csvParser(mappingType, input, output, sourceStream, destStream, mappingString);
     })
     .then(() => {
-      //destStream.end();
+      destStream.end();
       output.result({outputFilePath: outputFilePath});
     })
     .catch((err) => {
