@@ -5,6 +5,7 @@ module.exports = (function() {
   const request = require("request");
   const wranglerClass = require("./lib/wrangler-factory");
   const csvParser = require("./lib/csv-parser");
+  const Promise = require("bluebird");
 
   function databot(input, output, context) {
     // Load particular function file from "./lib" according to input mappingType
@@ -15,18 +16,19 @@ module.exports = (function() {
       output.error("invalid arguments - please supply either a source or valid mappingType");
       process.exit(1);
     }
-
-    // Load the source data as an HTTP stream.
-    let sourceStream;
+    // The sourceXXX input can be a comma separated list of values - parse this into an array of input sources.
+    let sources = [];
     if (input.sourceFilePath) {
-      // Source is a file on local disk.
-      sourceStream = fs.createReadStream(input.sourceFilePath.split(","));
+      // Source is file(s) on local disk.
+      sources = input.sourceFilePath.split(",");
     } else if (input.sourceResource) {
-      output.debug("sourceResource existed, parsing csv files from TBX rawFile");
-      sourceStream = context.tdxApi.getRawFile(input.sourceResource);
+      // Source is TDX resource(s).
+      sources = input.sourceResource.split(",");
     } else {
-      sourceStream = request.get(input.sourceURL);
+      // Source is remote URL(s).
+      sources = input.sourceURL.split(",");
     }
+
     // just for local test if generated json file is corret
     output.setFileStorePath("./jsonFiles");
     // Generate the output file based on the databot instance id.
@@ -40,19 +42,35 @@ module.exports = (function() {
     // csvtojson is very powerful - if you need more complex parsing (e.g. nested documents etc) it probably
     // already supports it - see https://www.npmjs.com/package/csvtojson
     // const parserOptions = {};
-
-    // Promise.each(sources, (sources) => {
-    //   return csvParser(mappingType, input, output, sourceStream, destStream);
-    // })
-    csvParser(mappingType, input, output, sourceStream, destStream)
-      .then(() => {
-        destStream.end();
-        output.result({outputFilePath: outputFilePath});
-      })
-      .catch((err) => {
-        output.debug(err.message);
-      });
+    Promise.each(sources, (source) => {
+      // Trim any whitespace from the source identifier.
+      source = source.trim();
+      output.debug("wrangling source %s, writing to %s", source, outputFilePath);
+      // Load the source stream based on the type of source input given.
+      let sourceStream;
+      if (input.sourceFilePath) {
+        // Source is a file on local disk.
+        sourceStream = fs.createReadStream(source);
+      } else if (input.sourceResource) {
+        // Source is a TDX resource.
+        sourceStream = context.tdxApi.getRawFile(source);
+      } else {
+        // Source is a remote URL.
+        sourceStream = request.get(source);
+      }
+      const mappingString = input.sourceMapping[source] || "";
+      output.debug("recognize mapingString is %s", mappingString);
+      return csvParser(mappingType, input, output, sourceStream, destStream, mappingString);
+    })
+    .then(() => {
+      //destStream.end();
+      output.result({outputFilePath: outputFilePath});
+    })
+    .catch((err) => {
+      output.debug(err.message);
+    });
   }
+
   let input = null;
   if (process.env.NODE_ENV === "test") {
     // Requires nqm-databot-gpsgrab.json file for testing
@@ -65,3 +83,4 @@ module.exports = (function() {
 // Read any data passed from the process host. Specify we're expecting JSON data.
   input.pipe(databot);
 }());
+
