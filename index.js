@@ -6,15 +6,16 @@ module.exports = (function() {
   const wranglerClass = require("./lib/wrangler-factory");
   const csvParser = require("./lib/csv-parser");
   const Promise = require("bluebird");
-  const aggregate = require("./lib/maggregate-tdx-source");
+  const tdxRequest = require("./lib/tdx-request");
+  const tdxDatasetRequest = require("./lib/tdx-dataset-request");
 
   function databot(input, output, context) {
     // Load particular function file from "./lib" according to input mappingType
     const mappingType = wranglerClass(input.mappingType);
-    const aggregateRequest = aggregate(input.mappingType);
+    const tdxQuery = tdxRequest(input.mappingType);
 
     // Databot can accept the source data as either a TDX resource ID refering to a raw file, or a URL.
-    if (!input.sourceResource && !input.sourceURL && !input.sourceFilePath || !mappingType) {
+    if (!input.sourceResource && !input.sourceURL && !input.sourceFilePath) {
       output.error("invalid arguments - please supply either a source or valid mappingType");
       process.exit(1);
     }
@@ -62,7 +63,9 @@ module.exports = (function() {
       }
       const mappingString = input.sourceMapping[source] || "";
       output.debug("recognize mapingString is %s", mappingString);
-      return csvParser(mappingType, input, output, sourceStream, destStream, mappingString);
+      output.debug(`tdxQuery is ${tdxQuery}`);
+      if (tdxQuery) return tdxDatasetRequest(mappingType, input, output, context, source, destStream);
+      else csvParser(mappingType, input, output, sourceStream, destStream, mappingString);
     })
     .then(() => {
       destStream.end();
