@@ -6,10 +6,12 @@ module.exports = (function() {
   const wranglerClass = require("./lib/wrangler-factory");
   const csvParser = require("./lib/csv-parser");
   const Promise = require("bluebird");
+  const aggregate = require("./lib/maggregate-tdx-source");
 
   function databot(input, output, context) {
     // Load particular function file from "./lib" according to input mappingType
     const mappingType = wranglerClass(input.mappingType);
+    const aggregateRequest = aggregate(input.mappingType);
 
     // Databot can accept the source data as either a TDX resource ID refering to a raw file, or a URL.
     if (!input.sourceResource && !input.sourceURL && !input.sourceFilePath || !mappingType) {
