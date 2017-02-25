@@ -62,13 +62,16 @@ module.exports = (function() {
         sourceStream = request.get(source);
       }
       const mappingString = input.sourceMapping[source] || "";
-      output.debug("recognize mapingString is %s", mappingString);
-      output.debug(`tdxQuery is ${tdxQuery}`);
       if (tdxQuery) return tdxDatasetRequest(mappingType, input, output, context, source, destStream);
       else csvParser(mappingType, input, output, sourceStream, destStream, mappingString);
     })
+    // .then(() => {
+    //   return tdxDatasetRequest(mappingType, input, output, context, "aaa", destStream);
+    //   //destStream.end();
+    //   //output.result({outputFilePath: outputFilePath});
+    // })
     .then(() => {
-      destStream.end();
+      // destStream.end();
       output.result({outputFilePath: outputFilePath});
     })
     .catch((err) => {
