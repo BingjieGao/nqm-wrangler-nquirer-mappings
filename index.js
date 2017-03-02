@@ -7,7 +7,7 @@ module.exports = (function() {
   const csvParser = require("./lib/csv-parser");
   const Promise = require("bluebird");
   const tdxRequest = require("./lib/tdx-request");
-  const tdxDatasetRequest = require("./lib/tdx-dataset-request");
+  const TdxDatasetRequest = require("./lib/tdx-dataset-request");
 
   function databot(input, output, context) {
     // Load particular function file from "./lib" according to input mappingType
@@ -45,6 +45,11 @@ module.exports = (function() {
     // csvtojson is very powerful - if you need more complex parsing (e.g. nested documents etc) it probably
     // already supports it - see https://www.npmjs.com/package/csvtojson
     // const parserOptions = {};
+    let tdxDatasetRequest;
+    if (tdxQuery) {
+      tdxDatasetRequest = new TdxDatasetRequest(input, output, context, destStream);
+    }
+
     Promise.each(sources, (source) => {
       // Trim any whitespace from the source identifier.
       source = source.trim();
@@ -62,7 +67,7 @@ module.exports = (function() {
         sourceStream = request.get(source);
       }
       const mappingString = input.sourceMapping[source] || "";
-      if (tdxQuery) return tdxDatasetRequest(mappingType, input, output, context, source, destStream);
+      if (tdxQuery) return tdxDatasetRequest.tdxDatasetRequest(mappingType, source, destStream);
       else csvParser(mappingType, input, output, sourceStream, destStream, mappingString);
     })
     // .then(() => {

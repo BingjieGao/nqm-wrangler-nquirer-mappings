@@ -11,6 +11,7 @@ mappingType is one of "defaultMappingTypes"
 defaultMappingTypes and corresponding tdx file resource ids are: 
 * "serviceIdToLsoa":"HJeVgCnYtg",
 * "ons-mapping-new":"ByWqFWX5tx",
+* "ccg-serviceId":"ryegnTW9Fg",
 * "ons-mapping" upload to dataset, dataset Id is S1xZmffiKx
   * "ccg15cd-lsoa11cd":"HJlJKfKntl",
   * "lad15cd-wd15cd":"ByeXHPK3tg",
