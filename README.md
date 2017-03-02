@@ -42,6 +42,10 @@ defaultMappingTypes and corresponding tdx file resource ids are:
   * gp-reg-patients-LSOA-MALE, "SyXw0PXsFg"
 * "age-ratio":"age-ratio-each-lsoa.js"
   * datasetId: "ryegnTW9Fg"
+
+* "ccg16cd-to-lsoa11cd"
+  * "ccg16cd-to-serviceId": (input first)
+  * "ratio dataset":
 ##### ? issues
 * originally count of LAD15CD-WD15CD: 8363, now is 9196, check the raw file in .csv
 * originally count of LAD15CD-LSOACD: 32844, now is 34754, check the raw file in .csv, there are in total 34754 LSOA11CD code
