@@ -18,10 +18,16 @@ defaultMappingTypes and corresponding tdx file resource ids are:
   * "lad11cd-wd11cd":"HygBx_t3Yg",
   * "cty15cd-lad15cd":"rJlhauthYx",
   * "lad15cd-lsoa11cd":"Byx_3KKntg"
-  * for mapping CTY15CD to LSOA11CD 
-    * "cty15cd-lsoa11cd":"" --> ons-mapping dataset Id: S1xZmffiKx, this is a sourceURL
+* for mapping CTY15CD to LSOA11CD(one of ons-mapping datasets)
+    * "cty15cd-lsoa11cd":"" --> ons-mapping dataset Id: S1xZmffiKx, this is a sourceURL on tdx
+
 ##### ratios to each GP service from each LSOA each demographic
-* pople-each-gp-calculator: "gp-reg-patients-LSOA-FEMALE", "gp-reg-patients-LSOA-MALE" 
+* pople-each-gp-calculator: 
+
+  >Files: "gp-reg-patients-LSOA-FEMALE", "gp-reg-patients-LSOA-MALE" 
+
+  ##### output json format
+```json
   {
     "area_id":"E01012187",
     "gender":"female",
@@ -30,22 +36,37 @@ defaultMappingTypes and corresponding tdx file resource ids are:
       "A81002":12,  ...
     }
   }
+  ```
 
-* people-each-lsoa-calculator:"gp-reg-patients-LSOA-FEMALE", "gp-reg-patients-LSOA-MALE"
+* people-each-lsoa-calculator
+
+  >Files: "gp-reg-patients-LSOA-FEMALE","gp-reg-patients-LSOA-MALE"
+  
+  ##### output json format
+```json
   {
     "area_id":"E01012187",
     "gender":"female",
     "persons":300
   }
+```
+
 * ratio-each-service: "ratio-each-service.js"
-  * gp-reg-patients-LSOA-FEMALE,"HJx0Heritg"
-  * gp-reg-patients-LSOA-MALE, "SyXw0PXsFg"
+
+  >File sources on tdx
+  >* gp-reg-patients-LSOA-FEMALE,"HJx0Heritg"
+  >* gp-reg-patients-LSOA-MALE, "SyXw0PXsFg"
+
 * "age-ratio":"age-ratio-each-lsoa.js"
-  * datasetId: "ryegnTW9Fg"
+  >dataset resource on tdx:
+  >* datasetId: "ryegnTW9Fg"
 
 * "ccg16cd-to-lsoa11cd"
-  * "ccg16cd-to-serviceId": (input first)
-  * "serviceId-to-lsoa11cd": mapping serviceIds with registered patients lsoas
+
+  >dataset resource on tdx:
+  >* "ccg16cd-to-serviceId": (input first)
+  >* "serviceId-to-lsoa11cd": mapping serviceIds with registered patients lsoas
+  
 ##### ? issues
 * originally count of LAD15CD-WD15CD: 8363, now is 9196, check the raw file in .csv
 * originally count of LAD15CD-LSOACD: 32844, now is 34754, check the raw file in .csv, there are in total 34754 LSOA11CD code
