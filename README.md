@@ -67,6 +67,9 @@ defaultMappingTypes and corresponding tdx file resource ids are:
   >* "ccg16cd-to-serviceId": (input first)
   >* "serviceId-to-lsoa11cd": mapping serviceIds with registered patients lsoas
   
+
+* school inporter
+  lib/school/line-parser.js  
 ##### ? issues
 * originally count of LAD15CD-WD15CD: 8363, now is 9196, check the raw file in .csv
 * originally count of LAD15CD-LSOACD: 32844, now is 34754, check the raw file in .csv, there are in total 34754 LSOA11CD code
