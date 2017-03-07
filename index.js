@@ -8,6 +8,7 @@ module.exports = (function() {
   const Promise = require("bluebird");
   const tdxRequest = require("./lib/tdx-request");
   const TdxDatasetRequest = require("./lib/tdx-dataset-request");
+  const path = require("path");
 
   function databot(input, output, context) {
     // Load particular function file from "./lib" according to input mappingType
@@ -58,7 +59,7 @@ module.exports = (function() {
       let sourceStream;
       if (input.sourceFilePath) {
         // Source is a file on local disk.
-        sourceStream = fs.createReadStream(source);
+        sourceStream = fs.createReadStream(path.resolve(__dirname, path.resolve("rawFiles", source)));
       } else if (input.sourceResource) {
         // Source is a TDX resource.
         sourceStream = context.tdxApi.getRawFile(source);
@@ -76,7 +77,7 @@ module.exports = (function() {
     //   //output.result({outputFilePath: outputFilePath});
     // })
     .then(() => {
-      // destStream.end();
+      destStream.end();
       output.result({outputFilePath: outputFilePath});
     })
     .catch((err) => {

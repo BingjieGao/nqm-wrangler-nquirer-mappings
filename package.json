@@ -6,12 +6,18 @@
     "start": ""
   },
   "dependencies": {
-    "csvtojson": "^1.1.4"
+    "csvtojson": "^1.1.4",
+    "lodash": "^4.17.4",
+    "nqm-api-tdx": "^0.1.32",
+    "promise": "^7.1.1",
+    "request": "^2.80.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
     "bluebird": "^3.4.7",
-    "eslint": "^3.17.0",
+    "eslint": "^3.17.1",
     "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-promise": "^3.4.2",
     "eslint-plugin-standard": "^2.0.1",
     "mkdirp": "^0.5.1",

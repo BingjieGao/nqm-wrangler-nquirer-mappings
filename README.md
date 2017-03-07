@@ -68,8 +68,10 @@ defaultMappingTypes and corresponding tdx file resource ids are:
   >* "serviceId-to-lsoa11cd": mapping serviceIds with registered patients lsoas
   
 
-* school inporter
-  lib/school/line-parser.js  
+* school importer
+  lib/schools/line-parser.js  
+* school ratio calculations
+  lib/schools/ratio-calculations.js (raw file "Autumn_Census_2013.csv")
 ##### ? issues
 * originally count of LAD15CD-WD15CD: 8363, now is 9196, check the raw file in .csv
 * originally count of LAD15CD-LSOACD: 32844, now is 34754, check the raw file in .csv, there are in total 34754 LSOA11CD code
