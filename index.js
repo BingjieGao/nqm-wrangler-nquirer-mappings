@@ -77,7 +77,6 @@ module.exports = (function() {
     //   //output.result({outputFilePath: outputFilePath});
     // })
     .then(() => {
-      destStream.end();
       output.result({outputFilePath: outputFilePath});
     })
     .catch((err) => {

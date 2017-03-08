@@ -71,6 +71,7 @@ defaultMappingTypes and corresponding tdx file resource ids are:
 * school importer
   lib/schools/line-parser.js  
 * school ratio calculations
+  * for tsv raw file tr '\t' ',' < file.tsv > file.csv
   lib/schools/ratio-calculations.js (raw file "Autumn_Census_2013.csv")
 ##### ? issues
 * originally count of LAD15CD-WD15CD: 8363, now is 9196, check the raw file in .csv
