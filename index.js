@@ -59,7 +59,7 @@ module.exports = (function() {
       let sourceStream;
       if (input.sourceFilePath) {
         // Source is a file on local disk.
-        sourceStream = fs.createReadStream(path.resolve(__dirname, path.resolve("rawFiles", source)));
+        sourceStream = fs.createReadStream(source);
       } else if (input.sourceResource) {
         // Source is a TDX resource.
         sourceStream = context.tdxApi.getRawFile(source);
