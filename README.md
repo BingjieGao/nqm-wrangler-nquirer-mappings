@@ -1,5 +1,41 @@
 # nqm-wrangler-nquirer-mappings
 
+## Description
+This Wrangler is to re-build mapping dataset for NQR, re-generate the dataset on tdx: https://q.nq-m.com/v1/datasets/B1eUF5s2Ul/data
+
+## Usage
+run as a databot with index.js file, the default input schema of the databot is like this:
+
+e.g.
+```json
+"inputSchema": {
+  "mappingType": ,
+  "period":"10-2016",
+  "sourceFilePath":"",
+  "sourceResource":"",
+  "sourceURL":"",
+},
+"outputSchema": {
+},
+"packageParams": {
+    "timerFrequency":60000,
+    "accessTokenTTL":31536000
+}
+
+```
+"mappingType" should be on of the default mapping types, which could be checked in "./lib/wrangler-factory.js"
+```json
+"serviceIdToLsoa": "serviceId-to-lsoa.js",
+"patients-mapping": "ccg-to-lsoa.js",
+"service-mapping"" ccg-to-serviceId.js",
+"ons-mapping-new": "ons-mapping.js",
+"ons-mapping": "csv-direct-mapping.js",
+"cty15cd-lsoa11cd": "cty15cd-lsoa11cd",
+
+```
+
+
+
 ##### databot input
 different mappingType "inputSchema"
 e.g.
@@ -60,6 +96,13 @@ defaultMappingTypes and corresponding tdx file resource ids are:
 * "age-ratio":"age-ratio-each-lsoa.js"
   >dataset resource on tdx:
   >* datasetId: "ryegnTW9Fg"
+
+* gp-ratio: "gp-ratio.js"
+  >dataset resource on tdx is https://q.nq-m.com/v1/datasets/rJxW_XsN5g/data
+  > the dataset coming from the output results from 
+    > * ratio-each-service: "ratio-each-service.js"
+    > * "age-ratio":"age-ratio-each-lsoa.js"
+
 
 * "ccg16cd-to-lsoa11cd"
 
