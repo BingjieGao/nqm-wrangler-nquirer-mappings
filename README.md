@@ -90,9 +90,9 @@ const mappingString = "ccg16cd-lsoa11cd";
 const mappingType = "ons-mapping"
 ```
 
-local source file is: LSOA11_CCG16_LAD16_EN_LU.csv
+**local source file is:** LSOA11_CCG16_LAD16_EN_LU.csv
 
-tbx file dataset: ByWqFWX5tx
+**tbx file dataset:** ByWqFWX5tx
 
 #### input schema
 
@@ -189,7 +189,7 @@ The source files for each different ons-mapping are:
 }
 ```
 
-### cty15cd-lsoa11cd
+### cty15cd-lsoa11cd - ons-mapping
 This module read from outcomes from other ons-mapping, cty15cd-lad15cd and lad15cd-lsoa11cd.
 
 on tbx, now the outcome dataset id of other ons-mapping is: S1xZmffiKx
@@ -236,64 +236,206 @@ const Wrangler = require("/ccg-to-serviceId");
 }
 ```
 
-##### ? issues
+#### ? issues with ons-mapping data
 * originally count of LAD15CD-WD15CD: 8363, now is 9196, check the raw file in .csv
 * originally count of LAD15CD-LSOACD: 32844, now is 34754, check the raw file in .csv, there are in total 34754 LSOA11CD code
 
-##### ratios to each GP service from each LSOA each demographic
-* pople-each-gp-calculator: 
 
-  >Files: "gp-reg-patients-LSOA-FEMALE", "gp-reg-patients-LSOA-MALE" 
+## Intermediate Results of Process
+The intermediate results while calculating the ratio which represents that for each demographic, the percentage of people registered in different GP from each LSOA, to the total population in each LSOA.
 
-  ##### output json format
-```json
+The second part of process is similar to what had been done with GP data for school's data. The calculation process generates the ratio that says for each demographic, how many pupils from one LSOA area registered in each schools to the total pupils living in this particular LSOA area.
+
+
+### **pople-each-gp-calculator:**
+This module generates that for each demographic, the number of people registered in each GP service from each LSOA.
+
+  **local files:**
+  * "gp-reg-patients-LSOA-FEMALE.csv",
+  * "gp-reg-patients-LSOA-MALE.csv" 
+
+  #### output json format
+  ```json
+    {
+      "area_id":"E01012187",
+      "gender":"female",
+      "persons":{
+        "A81001":10,
+        "A81002":12,  ...
+      }
+    }
+  ```
+
+### **people-each-lsoa-calculator**
+This module generates the total population in each LSOA area.
+
+  **local files:** 
+  * "gp-reg-patients-LSOA-FEMALE.csv"
+  * "gp-reg-patients-LSOA-MALE.csv"
+  
+  ##### **output json format**
+  ```json
+    {
+      "area_id":"E01012187",
+      "gender":"female",
+      "persons":300
+    }
+  ```
+
+### **ratio-each-service**
+This module requires both "pople-each-gp-calculator" and "pople-each-gp-calculator" in order to calculate the ratio implies the propotion of people registered in each GP from each LSOA area.
+  **local files:**
+  * gp-reg-patients-LSOA-FEMALE,"HJx0Heritg"
+  * gp-reg-patients-LSOA-MALE, "SyXw0PXsFg"
+
+  #### **output data schema**
+  ```json
   {
-    "area_id":"E01012187",
-    "gender":"female",
-    "persons":{
-      "A81001":10,
-      "A81002":12,  ...
+    "area_id": {
+      "type": ["string"]
+    },
+    "ageBand": {
+      "type": ["string"]
+    },
+    "gender": {
+      "type": ["string"]
+    },
+    "ratioType": {
+      "type": ["string"]
+    },
+    "serviceId": {
+      "type": ["string"]
+    },
+    "ratio": {
+      "type": ["number"]
+    },
+    "serviceRatio": {
+      "type": ["object"]
     }
   }
   ```
 
-* people-each-lsoa-calculator
+### **age-ratio-each-lsoa**
+This module calculates the ratio which represents the proption of people in each age band registered in on GP.
+  **resource Id on tdx**
+  * "ryegnTW9Fg"
+  **local file:**
+  * gp-reg-patients-prac-sing-year-age.csv
 
-  >Files: "gp-reg-patients-LSOA-FEMALE","gp-reg-patients-LSOA-MALE"
-  
-  ##### output json format
-```json
+  #### **ouput data schema**
+
+  ```json
   {
-    "area_id":"E01012187",
-    "gender":"female",
-    "persons":300
+    "area_id": {
+      "type": ["string"]
+    },
+    "ageBand": {
+      "type": ["string"]
+    },
+    "gender": {
+      "type": ["string"]
+    },
+    "ratioType": {
+      "type": ["string"]
+    },
+    "serviceId": {
+      "type": ["string"]
+    },
+    "ratio": {
+      "type": ["number"]
+    },
+    "serviceRatio": {
+      "type": ["object"]
+    }
   }
-```
+  ```
 
-* ratio-each-service: "ratio-each-service.js"
+### **gp-ratio**
+This is the module which reads the outcome from files "ratio-each-service" and "age-ratio-each-lsoa", and result in the final demographic ratio, multiply with age ratio and gender ratio.
 
-  >File sources on tdx
-  >* gp-reg-patients-LSOA-FEMALE,"HJx0Heritg"
-  >* gp-reg-patients-LSOA-MALE, "SyXw0PXsFg"
+  **dataset resource on tdx:** 
+  * https://q.nq-m.com/v1/datasets/rJxW_XsN5g/data
 
-* "age-ratio":"age-ratio-each-lsoa.js"
-  >dataset resource on tdx:
-  >* datasetId: "ryegnTW9Fg"
+  **the dataset coming from the output results** 
+  * ratio-each-service: "ratio-each-service.js"
+  * "age-ratio":"age-ratio-each-lsoa.js"
 
-* gp-ratio: "gp-ratio.js"
-  >dataset resource on tdx is https://q.nq-m.com/v1/datasets/rJxW_XsN5g/data
-  > the dataset coming from the output results from 
-    > * ratio-each-service: "ratio-each-service.js"
-    > * "age-ratio":"age-ratio-each-lsoa.js"
+  #### **input schema**
+  ```json
+  {
+    "area_id": {
+      "type": ["string"]
+    },
+    "ageBand": {
+      "type": ["string"]
+    },
+    "gender": {
+      "type": ["string"]
+    },
+    "ratioType": {
+      "type": ["string"]
+    },
+    "serviceId": {
+      "type": ["string"]
+    },
+    "ratio": {
+      "type": ["number"]
+    },
+    "serviceRatio": {
+      "type": ["object"]
+    }
+  }
+  ```
+  #### **output schema**
+  ```json
+  {
+    "areaId": {
+      "type": ["string"]
+    },
+    "ageBand": {
+      "type": ["string"]
+    },
+    "gender": {
+      "type": ["string"]
+    },
+    "ratio": {
+      "type": ["object"]
+    },
+  }
+  ```
 
 
-* "ccg16cd-to-lsoa11cd"
+### "ccg16cd-to-lsoa11cd"
+This is the module which requires two other mapping datasets:
+* one CCG code maps all the serviceIds inside
+* one serviceId maps all LSOA code that registered patients from
 
-  >dataset resource on tdx:
-  >* "ccg16cd-to-serviceId": (input first)
-  >* "serviceId-to-lsoa11cd": mapping serviceIds with registered patients lsoas
+  **dataset resource on tdx:**
+  * "ccg16cd-to-serviceId": 
+  * "serviceId-to-lsoa11cd": 
+
+  #### **input/output schema**
+  ```json
+  {
+    "parentId": {
+      "type": ["string"]
+    },
+    "childId": {
+      "type": ["string"]
+    },
+    "parentType": {
+      "type": ["string"]
+    },
+    "childType": {
+      "type": ["string"]
+    },
+    "mappingType": {
+      "type": ["string"]
+    }
+  }
+  ```
   
-
+### Schools data process
 * school importer
   lib/schools/line-parser.js  
 * school ratio calculations
