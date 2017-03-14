@@ -411,8 +411,8 @@ This is the module which requires two other mapping datasets:
 * one serviceId maps all LSOA code that registered patients from
 
   **dataset resource on tdx:**
-  * "ccg16cd-to-serviceId": 
-  * "serviceId-to-lsoa11cd": 
+  * "ccg16cd-to-serviceId": "SylOOZvVQl"
+  * "serviceId-to-lsoa11cd": "SyeTVqStHl"
 
   #### **input/output schema**
   ```json
