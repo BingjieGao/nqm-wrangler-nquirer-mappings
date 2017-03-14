@@ -441,3 +441,7 @@ This is the module which requires two other mapping datasets:
 * school ratio calculations
   * for tsv raw file tr '\t' ',' < file.tsv > file.csv
   lib/schools/ratio-calculations.js (raw file "Autumn_Census_2013.csv")
+
+### school yearGroup mapping to ageBand
+yearGroup-ageBand-mapping.js
+  ##tdx dataset source: ##S1gCLZJxNe
