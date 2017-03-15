@@ -439,6 +439,7 @@ This is the module which requires two other mapping datasets:
 * school importer
   lib/schools/line-parser.js  
 * school ratio calculations
+mapping-type: schools-ratio
   * for tsv raw file tr '\t' ',' < file.tsv > file.csv
   lib/schools/ratio-calculations.js (raw file "Autumn_Census_2013.csv")
 
