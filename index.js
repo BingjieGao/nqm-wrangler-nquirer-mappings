@@ -6,14 +6,13 @@ module.exports = (function() {
   const wranglerClass = require("./lib/wrangler-factory");
   const csvParser = require("./lib/csv-parser");
   const Promise = require("bluebird");
-  const tdxRequest = require("./lib/tdx-request");
+  const request_type = require("./lib/request-type");
   const TdxDatasetRequest = require("./lib/tdx-dataset-request");
-  const path = require("path");
 
   function databot(input, output, context) {
     // Load particular function file from "./lib" according to input mappingType
     const mappingType = wranglerClass(input.mappingType);
-    const tdxQuery = tdxRequest(input.mappingType);
+    const requestType = request_type(input.mappingType);
 
     // Databot can accept the source data as either a TDX resource ID refering to a raw file, or a URL.
     if (!input.sourceResource && !input.sourceURL && !input.sourceFilePath) {
@@ -47,8 +46,11 @@ module.exports = (function() {
     // already supports it - see https://www.npmjs.com/package/csvtojson
     // const parserOptions = {};
     let tdxDatasetRequest;
-    if (tdxQuery) {
+    let mappingTypeInstance = null;
+    if (requestType === "tdx-request") {
       tdxDatasetRequest = new TdxDatasetRequest(input, output, context, destStream);
+    } else if (requestType === "multiple-file") {
+      mappingTypeInstance = new mappingType(input, output, destStream);
     }
 
     Promise.each(sources, (source) => {
@@ -68,8 +70,9 @@ module.exports = (function() {
         sourceStream = request.get(source);
       }
       const mappingString = input.sourceMapping[source] || "";
-      if (tdxQuery) return tdxDatasetRequest.tdxDatasetRequest(mappingType, source, destStream);
-      else csvParser(mappingType, input, output, sourceStream, destStream, mappingString);
+      const wrangler = mappingTypeInstance == null ? mappingType : mappingTypeInstance;
+      if (requestType === "tdx-request") return tdxDatasetRequest.tdxDatasetRequest(mappingType, source, destStream);
+      else csvParser(wrangler, input, output, sourceStream, destStream, mappingString);
     })
     .then(() => {
       // destStream.end() is called in each write to file process separately
