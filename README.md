@@ -353,13 +353,6 @@ This module calculates the ratio which represents the proption of people in each
 ### **gp-ratio**
 This is the module which reads the outcome from files "ratio-each-service" and "age-ratio-each-lsoa", and result in the final demographic ratio, multiply with age ratio and gender ratio.
 
-  **dataset resource on tdx:** 
-  * https://q.nq-m.com/v1/datasets/rJxW_XsN5g/data
-
-  **the dataset coming from the output results** 
-  * ratio-each-service: "ratio-each-service.js"
-  * "age-ratio":"age-ratio-each-lsoa.js"
-
   #### **input schema**
   ```json
   {
