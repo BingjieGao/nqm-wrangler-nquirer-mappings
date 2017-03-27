@@ -439,3 +439,12 @@ mapping-type: schools-ratio
 ### school yearGroup mapping to ageBand
 yearGroup-ageBand-mapping.js
   ##tdx dataset source: ##S1gCLZJxNe
+
+### school details mapping
+  HJfA7HXtig - schools population
+  H1lZ4tOYie - schools ratios
+
+### edubase data
+  schools details including postcode
+
+
