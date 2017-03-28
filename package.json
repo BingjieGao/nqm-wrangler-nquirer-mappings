@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": ""
+    "start": "",
+    "test": "mocha"
   },
   "dependencies": {
     "csvtojson": "^1.1.4",
