@@ -50,6 +50,7 @@ module.exports = (function() {
     if (requestType === "tdx-request") {
       tdxDatasetRequest = new TdxDatasetRequest(input, output, context, destStream);
     } else if (requestType === "multiple-file") {
+      console.log("multiple files");
       mappingTypeInstance = new mappingType(input, output, destStream);
     }
 

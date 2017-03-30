@@ -443,6 +443,9 @@ yearGroup-ageBand-mapping.js
 ### school details mapping
   HJfA7HXtig - schools population
   H1lZ4tOYie - schools ratios
+## schoolId-to-lsoa11cd code
+  * mappingType: schoolId-to-cty15cd
+  raw file "edubasedata.csv" and "LAD15_CTY15_EN_LU.csv"
 
 ### edubase data
   schools details including postcode
