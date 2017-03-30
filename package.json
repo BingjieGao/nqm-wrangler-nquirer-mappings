@@ -11,6 +11,7 @@
     "csvtojson": "^1.1.4",
     "lodash": "^4.17.4",
     "nqm-api-tdx": "^0.1.32",
+    "proj4": "^2.4.3",
     "promise": "^7.1.1",
     "request": "^2.80.0"
   },
