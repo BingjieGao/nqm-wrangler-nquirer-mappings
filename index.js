@@ -5,14 +5,21 @@ module.exports = (function() {
   const request = require("request");
   const wranglerClass = require("./lib/wrangler-factory");
   const csvParser = require("./lib/csv-parser");
+  const lineParser = require("./lib/readline-parser");
   const Promise = require("bluebird");
   const request_type = require("./lib/request-type");
+  const parser_type = require("./lib/parser-type");
   const TdxDatasetRequest = require("./lib/tdx-dataset-request");
 
   function databot(input, output, context) {
+    let parser;
     // Load particular function file from "./lib" according to input mappingType
     const mappingType = wranglerClass(input.mappingType);
     const requestType = request_type(input.mappingType);
+    const parserType = parser_type(input.mappingType);
+    if (parserType) {
+      parser = lineParser;
+    } else parser = csvParser;
 
     // Databot can accept the source data as either a TDX resource ID refering to a raw file, or a URL.
     if (!input.sourceResource && !input.sourceURL && !input.sourceFilePath) {
@@ -73,7 +80,7 @@ module.exports = (function() {
       const mappingString = input.sourceMapping[source] || "";
       const wrangler = mappingTypeInstance == null ? mappingType : mappingTypeInstance;
       if (requestType === "tdx-request") return tdxDatasetRequest.tdxDatasetRequest(mappingType, source, destStream);
-      else csvParser(wrangler, input, output, sourceStream, destStream, mappingString);
+      else parser(wrangler, input, output, sourceStream, destStream, mappingString);
     })
     .then(() => {
       // destStream.end() is called in each write to file process separately
