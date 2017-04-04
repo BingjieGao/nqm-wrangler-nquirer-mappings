@@ -449,6 +449,10 @@ yearGroup-ageBand-mapping.js
 ## schoolId-to-cty15cd code
   * mappingType: schoolId-to-cty15cd
   raw file "edubasedata.csv" and "LAD15_CTY15_EN_LU.csv"
+
+## schoolId-to-lad15cd code
+  * mappingType: schoolId-to-cty15cd
+  raw file "edubasedata.csv" and "edubasealldata20170303.csv"
   
 
 ## schoolId-to-lsoa11cd code
