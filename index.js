@@ -85,6 +85,7 @@ module.exports = (function() {
     })
     .then(() => {
       // destStream.end() is called in each write to file process separately
+      output.debug("output file path is %s", outputFilePath);
       output.result({outputFilePath: outputFilePath});
     })
     .catch((err) => {
